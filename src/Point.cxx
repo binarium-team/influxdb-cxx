@@ -62,7 +62,7 @@ auto Point::getCurrentTimestamp() -> decltype(std::chrono::system_clock::now())
 std::string Point::toLineProtocol() const
 {
   return mMeasurement + mTags + " " + mFields + " " + std::to_string(
-    std::chrono::duration_cast <std::chrono::nanoseconds>(mTimestamp.time_since_epoch()).count()
+    std::chrono::duration_cast <std::chrono::seconds>(mTimestamp.time_since_epoch()).count()
   );
 }
 
