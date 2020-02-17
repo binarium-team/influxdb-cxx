@@ -46,7 +46,7 @@ namespace influxdb
         char cstr[name.size() + 1];
         strcpy(cstr, name.c_str());
 
-        sprintf(data, "%s=%f", cstr, value);
+        sprintf(data, "%s=%0.10f", cstr, value);
         if (!mFields.empty()) sprintf(data, ",%s=%f", cstr, value);
 
         mFields += data;
