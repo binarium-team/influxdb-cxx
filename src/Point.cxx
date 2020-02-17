@@ -24,7 +24,23 @@ namespace influxdb
         mFields = {};
     }
 
-    Point&& Point::addField(const std::string& name, double value)
+    Point&& Point::addField(std::string_view name, std::variant<int, long long int, std::string, double> value))
+    {
+        std::stringstream convert;
+        if (!mFields.empty()) convert << ",";
+
+        convert << name << "=";
+        std::visit(overloaded {
+                [&convert](int value) { convert << value << 'i'; },
+                [&convert](long long int value) { convert << value << 'i'; },
+                [&convert](double value) { convert << value; },
+                [&convert](const std::string& value) { convert << '"' << value << '"'; },
+        }, value);
+        mFields += convert.str();
+        return std::move(*this);
+    }
+
+    Point&& Point::addDoubleField(const std::string& name, double value)
     {
         char data[50];
         char cstr[name.size() + 1];

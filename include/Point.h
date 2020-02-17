@@ -26,7 +26,10 @@ namespace influxdb
         Point&& addTag(std::string_view key, std::string_view value);
 
         /// Adds filed
-        Point&& addField(const std::string& name, double value);
+        Point&& addField(std::string_view name, std::variant<int, long long int, std::string, double> value);
+
+        /// Adds filed
+        Point&& addDoubleField(const std::string& name, double value);
 
         /// Generetes current timestamp
         static auto getCurrentTimestamp() -> decltype(std::chrono::system_clock::now());
