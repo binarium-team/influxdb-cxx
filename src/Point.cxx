@@ -24,7 +24,7 @@ namespace influxdb
         mFields = {};
     }
 
-    Point&& Point::addField(std::string_view name, std::variant<int, long long int, std::string, double> value))
+    Point&& Point::addField(std::string_view name, std::variant<int, long long int, std::string, double> value)
     {
         std::stringstream convert;
         if (!mFields.empty()) convert << ",";
