@@ -98,39 +98,6 @@ target_compile_definitions(InfluxDB
     $<$<BOOL:${Boost_FOUND}>:INFLUXDB_WITH_BOOST>
 )
 
-####################################
-# Tests
-####################################
-
-# Tests require Boost::unit_test_framework
-if (Boost_FOUND)
-
-  enable_testing()
-
-  set(TEST_SRCS
-    test/testUdp.cxx
-    test/testPoint.cxx
-    test/testHttp.cxx
-    test/testQuery.cxx
-  )
-
-  foreach (test ${TEST_SRCS})
-    get_filename_component(test_name ${test} NAME)
-    string(REGEX REPLACE ".cxx" "" test_name ${test_name})
-
-    add_executable(${test_name} ${test})
-    target_link_libraries(${test_name}
-      PRIVATE
-        InfluxDB Boost::unit_test_framework
-    )
-    add_test(NAME ${test_name} COMMAND ${test_name})
-    set_tests_properties(${test_name} PROPERTIES TIMEOUT 60)
-  endforeach()
-
-  add_executable(benchmark test/benchmark.cxx)
-  target_link_libraries(benchmark PRIVATE InfluxDB Boost::program_options)
-endif()
-
 
 ####################################
 # Install
